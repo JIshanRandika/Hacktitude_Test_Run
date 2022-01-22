@@ -84,7 +84,6 @@ router.get("/dashboard", async (req, res) => {
   const userId = req.session.userId;
   const courseId = req.query.courseId;
   const courseDetails = await courseService.courseDetails(userId, courseId);
-  // const books = await courseService.suggestedCourseBooks(courseDetails.row.title);
   res.render(
     "course-dashboard.ejs",
     {
@@ -130,7 +129,10 @@ router.get("/enroll", async (req, res) => {
 router.get("/coursePage", async (req, res) => {
   const courseId = req.query.courseId;
   const userId = req.session.userId;
+  const increment = req.query.increment;
   console.log(userId);
+  if (increment > 0)
+    await courseService.updateUserCourseProgress(userId, courseId, increment);
   const courseContent = await courseService.courseContentDetails(courseId);
   const courseProgress = await courseService.getUserCourseProgress(
     userId,
@@ -141,6 +143,7 @@ router.get("/coursePage", async (req, res) => {
     {
       progress: courseProgress.progress,
       chapters: courseContent.chapters,
+      chapterLength: courseContent.chapters.length,
       title: courseContent.course.title,
       level: courseContent.course.level,
       duration: courseContent.course.duration,
@@ -157,6 +160,21 @@ router.get("/coursePage", async (req, res) => {
       }
     }
   );
+});
+
+router.post("/updateProgress", async (req, res) => {
+  const courseId = req.query.courseId;
+  const userId = req.session.userId;
+  const increment = parseInt(req.body.increment);
+
+  await courseService
+    .updateUserCourseProgress(userId, courseId, increment)
+    .then((result) => {
+      res.redirect(`/course/coursePage?courseId=${courseId}`);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 router.get("/reset", async (req, res) => {

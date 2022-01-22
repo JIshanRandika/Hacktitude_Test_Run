@@ -46,6 +46,15 @@ async function getUserCourseProgress(userId, courseId) {
   return progress;
 }
 
+async function updateUserCourseProgress(userId, courseId, increment) {
+  const result = courseRepository.updateUserCourseProgress(
+    userId,
+    courseId,
+    increment
+  );
+  return result;
+}
+
 async function courseEnroll(userId, courseId) {
   const courses = courseRepository.enrollInCourse(userId, courseId);
   return courses;
@@ -86,6 +95,7 @@ module.exports = {
   allCourses,
   userCourses,
   getUserCourseProgress,
+  updateUserCourseProgress,
   searchedCourses,
   sortedCourses,
   courseDetails,
