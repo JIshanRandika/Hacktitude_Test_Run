@@ -23,23 +23,38 @@ function getRecentCourses(count) {
   });
 }
 
-function getAllCourses(userId) {
-  const sql = `SELECT * from userCourses WHERE uid = ?`;
+// function getAllCourses(userId) {
+//   const sql = `SELECT * from userCourses WHERE uid = ?`;
+
+//   return new Promise((resolve, reject) => {
+//     knex_db
+//       .raw(sql, [userId])
+//       .then(() => {
+//         const sql2 = `SELECT id, title, duration, level FROM courses`;
+
+//         knex_db
+//           .raw(sql2)
+//           .then((courses) => {
+//             resolve(courses);
+//           })
+//           .catch((error) => {
+//             reject(error);
+//           });
+//       })
+//       .catch((error) => {
+//         reject(error);
+//       });
+//   });
+// }
+
+function getAllCourses() {
+  const sql = `SELECT * from courses`;
 
   return new Promise((resolve, reject) => {
     knex_db
-      .raw(sql, [userId])
-      .then(() => {
-        const sql2 = `SELECT id, title, duration, level FROM courses`;
-
-        knex_db
-          .raw(sql2)
-          .then((courses) => {
-            resolve(courses);
-          })
-          .catch((error) => {
-            reject(error);
-          });
+      .raw(sql)
+      .then((result) => {
+        resolve(result);
       })
       .catch((error) => {
         reject(error);

@@ -2,10 +2,28 @@ const express = require("express");
 const router = express.Router();
 const courseService = require("../services/courseService");
 
+// router.get("/allcourses", async (req, res) => {
+//   const userId = req.query.userId;
+//   req.session.userId = userId;
+//   const courses = await courseService.allCourses(userId);
+//   res.render(
+//     "all-courses.ejs",
+//     { allcourses: courses, userId: userId },
+//     (error, ejs) => {
+//       if (error) {
+//         console.log(error);
+//         res.render("error.ejs", { message: "EJS" });
+//       } else {
+//         res.send(ejs);
+//       }
+//     }
+//   );
+// });
+
 router.get("/allcourses", async (req, res) => {
-  const userId = req.query.userId;
-  req.session.userId = userId;
-  const courses = await courseService.allCourses(userId);
+  const userId = req.session.userId;
+
+  const courses = await courseService.allCourses();
   res.render(
     "all-courses.ejs",
     { allcourses: courses, userId: userId },
@@ -130,7 +148,7 @@ router.get("/coursePage", async (req, res) => {
   const courseId = req.query.courseId;
   const userId = req.session.userId;
   const increment = req.query.increment;
-  console.log(userId);
+
   if (increment > 0)
     await courseService.updateUserCourseProgress(userId, courseId, increment);
   const courseContent = await courseService.courseContentDetails(courseId);
@@ -170,7 +188,7 @@ router.post("/updateProgress", async (req, res) => {
   await courseService
     .updateUserCourseProgress(userId, courseId, increment)
     .then((result) => {
-      res.redirect(`/course/coursePage?courseId=${courseId}`);
+      // res.redirect(`/course/coursePage?courseId=${courseId}`);
     })
     .catch((error) => {
       console.log(error);

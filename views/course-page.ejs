@@ -83,31 +83,52 @@
           </div>
         </div>
         <% for(let i=0; i < chapterLength; i++) { %>
-          <div class="right-menu" id="contentlink<% i + 1 %>" style="display: block"><p><%= chapters[i].description %></p>
-            <form method="POST" action="/course/updateProgress?courseId=<%= id %>">
-              <input type="hidden" name="increment" value="<%= Math.round(100/chapterLength) %>" />
-              <button type="submit" class="coursedashChapter" onclick="changeDiv('contentlink<% i + 2 %>')" id="chapterOne">Next
-              </button>
-            </form>
-          </div>
+          <% if (i == 3) { %>
+            <% break; %>
+          <% } else { %>
+            <div class="right-menu" id="contentlink<% i + 1 %>" style="display: <%= i == 0 ? 'block' : 'none' %>"><p><%= chapters[i].description %></p>
+              <form method="POST" action="/course/updateProgress?courseId=<%= id %>">
+                <input type="hidden" name="increment" value="<%= Math.round(100/chapterLength) %>" />
+                <button type="submit" class="coursedashChapter" onclick="changeDiv('contentlink<%= i + 2 %>')">Next
+                </button>
+              </form>
+            </div>
           <% } %>
-        <div class="right-menu" id="contentlink1" ><iframe name="contentlink1" src="/course/mcq/<%= id %>" width="900" height="500"></iframe> </div>
+        <% } %>
+        <div class="right-menu" id="contentlink4" ><iframe name="contentlink4" src="/course/mcq/<%= id %>" width="900" height="500"></iframe> </div>
 
         <!-- <div class="right-menu" id="contentlink2" style="display: block;"><p><%= chapters[0].description %></p>
-          <form method="POST" action="/course/updateProgress?courseId=<%= id %>">
-            <input type="hidden" name="increment" value="<%= Math.round(100/chapterLength) %>" />
-            <button type="submit" class="coursedashChapter" onclick="changeDiv('contentlink3')" id="chapterOne">Next
-            </button>
+          <form method="POST" id="updateProgressForm">
+            <input type="hidden" id="increment" name="increment" value="<%= progress < Math.round(100/chapterLength) ? Math.round(100/chapterLength) : 0 %>" />
+     
+              <button type="submit" class="coursedashChapter" onclick="changeDiv('contentlink3')">Next
+              </button>
           </form>
         </div>
 
         <div class="right-menu" id="contentlink3" ><p><%= chapters[1].description %></p>
-          <button class="coursedashChapter" onclick="changeDiv('contentlink4')" id="chapterOne">Next</button> </div>
+          <button class="coursedashChapter" onclick="changeDiv('contentlink4')">Next</button>
+        </div>
 
         <div class="right-menu" id="contentlink4" ><p><%= chapters[2].description %></p>
-          <button class="coursedash" onclick="changeDiv('contentlink1')" id="chapterOne">Next</button> </div>      -->
+          <button class="coursedashChapter" onclick="changeDiv('contentlink1')">Next</button>
+        </div>      -->
       </div>
       <script>
+        $(document).ready(function () {
+        $('#updateProgressForm').submit(function (e) {
+          e.preventDefault();
+
+          var increment = $("#increment").val();
+
+          $.post("/course/updateProgress?courseId=<%= id %>", {
+            increment: increment,
+          }).then(function() {
+              console.log("Success");
+            });
+          });
+        });
+
         function changeDiv(value) {
           if (value == "contentlink1") {
             document.getElementById("contentlink1").style.display = "block";
