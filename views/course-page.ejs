@@ -83,7 +83,6 @@
           </div>
         </div>
         <% for(let i=0; i < chapterLength; i++) { %>
-          <% // todo %>
           <div class="right-menu" id="contentlink<% i + 1 %>" style="display: block"><p><%= chapters[i].description %></p>
             <form method="POST" action="/course/updateProgress?courseId=<%= id %>">
               <input type="hidden" name="increment" value="<%= Math.round(100/chapterLength) %>" />
