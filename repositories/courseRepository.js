@@ -86,6 +86,21 @@ function getUserCourseProgress(userID, courseID) {
   });
 }
 
+function updateUserCourseProgress(userID, courseID, increment) {
+  const sql = `UPDATE userCourses SET progress = progress + ? WHERE uid = ? AND cid = ?`;
+
+  return new Promise((resolve, reject) => {
+    knex_db
+      .raw(sql, [increment, userID, courseID])
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 function getSearchedCourses(userID, searchVal) {
   const sql = `SELECT * from userCourses WHERE uid = ?`;
 
@@ -354,6 +369,7 @@ module.exports = {
   getAllCourses,
   getUserCourses,
   getUserCourseProgress,
+  updateUserCourseProgress,
   getSearchedCourses,
   getSortedCourses,
   getCourseDetails,

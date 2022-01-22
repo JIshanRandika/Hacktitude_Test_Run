@@ -67,7 +67,7 @@
             <%= description %>
           </p>
                   <% if(registered=='yes' ) { %>
-          <a href="/course/coursePage?userId=<%= id %>&courseId=<%= id %>"><button class="btn" style="margin-left: 20px;">Resume</button></a>
+          <a href="/course/coursePage?courseId=<%= id %>"><button class="btn" style="margin-left: 20px;">Resume</button></a>
 
           <% }else { %>
             <a href="/course/enroll?courseId=<%= id %>"><button class="btn" style="margin-left: 20px;">Enroll</button></a>

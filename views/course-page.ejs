@@ -65,7 +65,7 @@
         <div class="left-menu">
             <button class="coursedashChapter" onclick="changeDiv('contentlink2')" id="chapterOne"><a class="num">01</a>Chapter One</button>
           <div class="dash">
-            <% if(chapterTwoDisabled) {  %>
+            <% if(progress < chapterLength) {  %>
             <button disabled class="coursedash" onclick="changeDiv('contentlink3')" id="chapterTwo"><a class="num">02</a>Chapter Two</button>
             <% } else { %>
             <button class="coursedash" onclick="changeDiv('contentlink3')" id="chapterTwo"><a class="num">02</a>Chapter Two</button>
@@ -82,16 +82,31 @@
             <button disabled="<% assessmentDisabled %>" class="coursedash" onclick="changeDiv('contentlink1')" id="assessmentToggle">Assesment</button>
           </div>
         </div>
+        <% for(let i=0; i < chapterLength; i++) { %>
+          <% // todo %>
+          <div class="right-menu" id="contentlink<% i + 1 %>" style="display: block"><p><%= chapters[i].description %></p>
+            <form method="POST" action="/course/updateProgress?courseId=<%= id %>">
+              <input type="hidden" name="increment" value="<%= Math.round(100/chapterLength) %>" />
+              <button type="submit" class="coursedashChapter" onclick="changeDiv('contentlink<% i + 2 %>')" id="chapterOne">Next
+              </button>
+            </form>
+          </div>
+          <% } %>
         <div class="right-menu" id="contentlink1" ><iframe name="contentlink1" src="/course/mcq/<%= id %>" width="900" height="500"></iframe> </div>
 
-        <div class="right-menu" id="contentlink2" style="display: block;"><p><%= chapters[0].description %></p>
-          <button class="coursedashChapter" onclick="changeDiv('contentlink3')" id="chapterOne">Next</button></div>
+        <!-- <div class="right-menu" id="contentlink2" style="display: block;"><p><%= chapters[0].description %></p>
+          <form method="POST" action="/course/updateProgress?courseId=<%= id %>">
+            <input type="hidden" name="increment" value="<%= Math.round(100/chapterLength) %>" />
+            <button type="submit" class="coursedashChapter" onclick="changeDiv('contentlink3')" id="chapterOne">Next
+            </button>
+          </form>
+        </div>
 
         <div class="right-menu" id="contentlink3" ><p><%= chapters[1].description %></p>
           <button class="coursedashChapter" onclick="changeDiv('contentlink4')" id="chapterOne">Next</button> </div>
 
         <div class="right-menu" id="contentlink4" ><p><%= chapters[2].description %></p>
-          <button class="coursedash" onclick="changeDiv('contentlink1')" id="chapterOne">Next</button> </div>     
+          <button class="coursedash" onclick="changeDiv('contentlink1')" id="chapterOne">Next</button> </div>      -->
       </div>
       <script>
         function changeDiv(value) {
