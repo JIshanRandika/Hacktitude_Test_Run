@@ -1,5 +1,5 @@
-const dbConnection = require('../db/sqlite');
-const userRepository = require('../repositories/userRepository');
+const dbConnection = require("../db/sqlite");
+const userRepository = require("../repositories/userRepository");
 
 dbConnection
   .getDbConnection()
@@ -16,5 +16,5 @@ async function signUpUser(name, email, passwordOne, passwordTwo) {
 }
 
 module.exports = {
-  signUpUser
-}
+  signUpUser,
+};

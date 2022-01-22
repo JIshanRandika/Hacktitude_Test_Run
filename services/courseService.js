@@ -11,8 +11,8 @@ dbConnection
     throw err;
   });
 
-async function allCourses(userId) {
-  const courses = courseRepository.getAllCourses(userId);
+async function allCourses() {
+  const courses = courseRepository.getAllCourses();
   return courses;
 }
 

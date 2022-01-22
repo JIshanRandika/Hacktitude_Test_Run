@@ -12,6 +12,10 @@ router.use(bodyParser.urlencoded({ extended: true }));
 const user = require("./controllers/userController");
 const course = require("./controllers/courseController");
 
+// const { validateEmail } = require("./utils/validation");
+
+// console.log(validateEmail("Test_test@hacktitude.io"));
+
 app.use(
   session({
     secret: "secretvalue",
@@ -28,8 +32,12 @@ router.get("/", (req, res) => {
   res.redirect("/user/signin");
 });
 
-// router.get("/guest", (req, res) => {
-//   res.redirect("/user/home");
-// });
+router.get("/guest", (req, res) => {
+  res.render("guest-signin.ejs");
+});
+
+router.get("/guest/signin", (req, res) => {
+  res.redirect("/course/allcourses");
+});
 
 module.exports = app;

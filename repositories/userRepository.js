@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { validateEmail } = require("../utils/validation");
 
 let _db;
 
@@ -45,6 +46,8 @@ function getUserById(id) {
 function signUpUser(name, email, passwordOne, passwordTwo) {
   const sql1 = `SELECT id, name, email, password FROM users WHERE email = ?`;
 
+  const validatedEmail = validateEmail(email);
+
   return new Promise(async (resolve, reject) => {
     const data = {};
 
@@ -57,33 +60,38 @@ function signUpUser(name, email, passwordOne, passwordTwo) {
       data.error = "values missing";
       reject(data);
     } else {
-      knex_db
-        .raw(sql1, [email])
-        .then(async (user) => {
-          if (!(user[0] == undefined)) {
-            data.error = "Already Registered";
-            reject(data);
-          } else {
-            if (passwordOne != passwordTwo) {
-              data.error = "Passwords Mismatch";
+      if (validatedEmail != null) {
+        knex_db
+          .raw(sql1, [email])
+          .then(async (user) => {
+            if (!(user[0] == undefined)) {
+              data.error = "Already Registered";
               reject(data);
             } else {
-              const hashPassword = await bcrypt.hash(passwordTwo, 10);
-              const sql = `INSERT INTO users(id, name, email, password) VALUES(NULL,?,?,?)`;
-              knex_db
-                .raw(sql, [name, email, hashPassword])
-                .then(() => {
-                  resolve();
-                })
-                .catch((error) => {
-                  reject(error);
-                });
+              if (passwordOne != passwordTwo) {
+                data.error = "Passwords Mismatch";
+                reject(data);
+              } else {
+                const hashPassword = await bcrypt.hash(passwordTwo, 10);
+                const sql = `INSERT INTO users(id, name, email, password) VALUES(NULL,?,?,?)`;
+                knex_db
+                  .raw(sql, [name, email, hashPassword])
+                  .then(() => {
+                    resolve();
+                  })
+                  .catch((error) => {
+                    reject(error);
+                  });
+              }
             }
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      } else {
+        data.error = "invalid email format";
+        reject(data);
+      }
     }
   });
 }

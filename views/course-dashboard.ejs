@@ -66,11 +66,13 @@
           <p>
             <%= description %>
           </p>
-                  <% if(registered=='yes' ) { %>
+          <% if(registered=='yes') { %>
           <a href="/course/coursePage?courseId=<%= id %>"><button class="btn" style="margin-left: 20px;">Resume</button></a>
 
           <% }else { %>
+            <% if (isGuest()) { %>
             <a href="/course/enroll?courseId=<%= id %>"><button class="btn" style="margin-left: 20px;">Enroll</button></a>
+            <% } %>
           <% } %>
         </div>
 
@@ -118,6 +120,11 @@
           <% } %>
         <% } %>
     </div>
+    <script>
+      function isGuest() {
+        return localStorage.getItem('name') != null;
+      }
+    </script>
   </div>
   </div>
   </div>

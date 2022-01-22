@@ -20,9 +20,11 @@
         <a href="/course/allcourses?userId=<%= userId %>" class="active narrow">
             <p>All Courses</p>
         </a>
-        <a href="/course/enrolled?userId=<%= userId %>" class="nav-link narrow">
-            <p>Enrolled</p>
-        </a>
+        <% if (userId != null) { %>
+            <a href="/course/enrolled?userId=<%= userId %>" class="nav-link narrow" id="nav-link-enrolled">
+                <p>Enrolled</p>
+            </a>
+        <% } %>
         <form action="/user/signout" method="POST">
             <div>
                 <span class="divider">| </span><button class="signout"> Logout</button>

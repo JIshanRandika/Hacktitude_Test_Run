@@ -13,15 +13,17 @@
 <body>
     <div class="main-container">
         <div class="left-container">
-            <div class="form-container">
-                <p class="heading-text">Guest Login</p>
-                <input name="name" id="name" type="text" placeholder="Full Name">
-                <input name="email" id="email" type="email" placeholder="Email">
-                <button onclick="addToLocalStorage()" class="btn" type="submit">ENTER</button>
-                <p class="al links ">Already a Member?<br> <a class="signinn links" href="/signin">Sign In</a> <br><a
-                        class="signup links" href="/signup">Sign Up</a>
-                </p>
-            </div>
+            <form action="/guest/signin" method="GET">
+                <div class="form-container">
+                    <p class="heading-text">Guest Login</p>
+                    <input name="name" id="name" type="text" placeholder="Full Name">
+                    <input name="email" id="email" type="email" placeholder="Email">
+                    <button onclick="addToLocalStorage()" class="btn" type="submit">ENTER</button>
+                    <p class="al links ">Already a Member?<br> <a class="signinn links" href="/signin">Sign In</a> <br><a
+                            class="signup links" href="/signup">Sign Up</a>
+                    </p>
+                </div>
+            </form>
         </div>
         <div class="right-container">
             <div class="logo-container">

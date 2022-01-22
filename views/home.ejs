@@ -27,12 +27,17 @@
             <a href="/user/home" class="active narrow" id="nav-link-home">
                 <p>Home</p>
             </a>
-            <a href="/course/allcourses?userId=<%= userId %>" class="nav-link narrow" id="nav-link-all">
+            <!-- <a href="/course/allcourses?userId=<%= userId %>" class="nav-link narrow" id="nav-link-all">
+                <p>All Courses</p>
+            </a> -->
+            <a href="/course/allcourses?" class="nav-link narrow" id="nav-link-all">
                 <p>All Courses</p>
             </a>
-            <a href="/course/enrolled?userId=<%= userId %>" class="nav-link narrow" id="nav-link-enrolled">
-                <p>Enrolled</p>
-            </a>
+            <% if (userId != null) { %>
+                <a href="/course/enrolled?userId=<%= userId %>" class="nav-link narrow" id="nav-link-enrolled">
+                    <p>Enrolled</p>
+                </a>
+            <% } %>
             <form action="/user/signout" method="POST">
                 <div>
                     <span class="divider">| </span><button class="signout"> Logout</button>
@@ -42,7 +47,7 @@
     </div>
     <div class="dashboard-main-container" style="padding-bottom: 5px; margin-bottom: 20px;">
         <p class="name"><span class="orange">Hi</span> <span class="blue">
-                <%= userName %>,
+                <%= userName || localStorage.getItem('name') %>,
             </span></p>
     </div>
 
